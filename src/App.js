@@ -1,26 +1,22 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import "antd/dist/antd.css"; // do not remove this
+import { Provider } from "react-redux";
+import { Switch } from "react-router"; // react-router v4
+import { BrowserRouter as Router, Route } from "react-router-dom";
+import { store } from "./store";
 
-function App() {
+import QueuePage from "./containers/queue-path";
+
+const App = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Provider store={store}>
+      <Router>
+        <Switch>
+          <Route path="*" component={QueuePage} />
+        </Switch>
+      </Router>
+    </Provider>
   );
-}
+};
 
 export default App;
