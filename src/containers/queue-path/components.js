@@ -42,6 +42,10 @@ export class QueueTable extends Component {
           }
         `}
         columns={columns}
+        rowClassName={css`
+          font-weight: bold;
+          background-color: #ffefd5 !important;
+        `}
         dataSource={clientsList}
         size="small"
         bordered={true}

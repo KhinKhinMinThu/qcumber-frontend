@@ -4,8 +4,9 @@ import { connect } from "react-redux";
 import { Layout, Icon, Row, Col, Card, Avatar } from "antd";
 import Grandma from "../assets/grandma.png";
 import Grandpa from "../assets/grandpa.png";
-import { getQueueData } from "../../reducers/queue-reducer";
+import { getQueueData, getOccupancyData } from "../../reducers/queue-reducer";
 import { timer } from "../../props";
+import Clock from "react-digital-clock";
 
 import {
   Header,
@@ -39,14 +40,18 @@ const { Content } = Layout;
 const { Meta } = Card;
 class QueuePage extends Component {
   componentDidMount() {
-    const { getQueueData } = this.props;
+    const { getQueueData, getOccupancyData } = this.props;
     this.interval = setInterval(() => {
       getQueueData();
+      getOccupancyData();
     }, timer);
   }
 
   addKeyToList = list => {
     const result = list.map((item, index) => {
+      item.waitingtime = item.waitingtime.includes("mins")
+        ? item.waitingtime
+        : item.waitingtime + " mins";
       const obj = Object.assign({}, item);
       obj.key = index;
       return obj;
@@ -55,20 +60,31 @@ class QueuePage extends Component {
   };
   render() {
     const {
-      queueData: { queueData },
-      getQueueData
+      queueData: { queueData, occupancyData }
     } = this.props;
-    if (queueData === null) getQueueData();
 
-    const mclientsList = queueData
-      ? this.addKeyToList(queueData.mclientsList)
-      : [];
-    const fclientsList = queueData
-      ? this.addKeyToList(queueData.fclientsList)
-      : [];
+    let mclientsList = [],
+      fclientsList = [];
+    if (queueData) {
+      const mObj = queueData[0];
+      const fObj = queueData[1];
+      if (mObj) {
+        mclientsList = this.addKeyToList(Object.values(mObj));
+      }
+      if (fObj) {
+        fclientsList = this.addKeyToList(Object.values(fObj));
+      }
+    }
 
-    const mtoilet = queueData ? queueData.mtoilet : [];
-    const ftoilet = queueData ? queueData.ftoilet : [];
+    const mtoilet = {},
+      ftoilet = {};
+    if (occupancyData) {
+      mtoilet["toilet1"] = occupancyData.toilet1;
+      Object.entries(occupancyData).forEach(item => {
+        if (item[0] !== "toilet1") ftoilet[item[0]] = item[1];
+      });
+    }
+
     return (
       <Layout style={{ minWidth: "1500px", height: "100vh" }}>
         <Header>
@@ -85,9 +101,19 @@ class QueuePage extends Component {
               padding: "0px 10px 0px 10px"
             }}
           >
+            <div
+              style={{
+                width: "100%",
+                backgroundColor: "#355667",
+                fontFamily: "psrFont",
+                fontWeight: "bold"
+              }}
+            >
+              <Clock />
+            </div>
             <Row>
               <Col span={12}>
-                <Card style={{ height: "36em" }}>
+                <Card style={{ height: "34.5em" }}>
                   <Meta
                     avatar={<Avatar size={70} src={Grandpa} shape="square" />}
                     title={false}
@@ -101,7 +127,7 @@ class QueuePage extends Component {
                 </Card>
               </Col>
               <Col span={12}>
-                <Card style={{ height: "36em" }}>
+                <Card style={{ height: "34.5em" }}>
                   <Meta
                     avatar={<Avatar size={70} src={Grandma} shape="square" />}
                     title={false}
@@ -119,9 +145,9 @@ class QueuePage extends Component {
               <Col span={12}>
                 <Card>
                   <Row>
-                    {mtoilet.map((item, index) => {
-                      const span = 24 / mtoilet.length;
-                      const color = item === 0 ? green : red;
+                    {Object.values(mtoilet).map((item, index) => {
+                      const span = 24 / Object.values(mtoilet).length;
+                      const color = item === "0" ? green : red;
                       return (
                         <Col key={index} span={span}>
                           <Icon component={() => maleSvg(color, "8em")} />
@@ -134,9 +160,9 @@ class QueuePage extends Component {
               <Col span={12}>
                 <Card>
                   <Row>
-                    {ftoilet.map((item, index) => {
-                      const span = 24 / ftoilet.length;
-                      const color = item === 0 ? green : red;
+                    {Object.values(ftoilet).map((item, index) => {
+                      const span = 24 / Object.values(ftoilet).length;
+                      const color = item === "0" ? green : red;
                       return (
                         <Col key={index} span={span}>
                           <Icon component={() => femaleSvg(color, "8em")} />
@@ -159,15 +185,19 @@ class QueuePage extends Component {
 
 QueuePage.propTypes = {
   getQueueData: PropTypes.func.isRequired,
-  queueData: PropTypes.shape({}).isRequired
+  getOccupancyData: PropTypes.func.isRequired
+  // occupancyData: PropTypes.shape({}).isRequired,
+  // queueData: PropTypes.shape({}).isRequired
 };
 
 const mapStateToProps = state => ({
-  queueData: state.queueData
+  queueData: state.queueData,
+  occupancyData: state.occupancyData
 });
 
 const mapDispatchToProps = {
-  getQueueData: getQueueData
+  getQueueData: getQueueData,
+  getOccupancyData: getOccupancyData
 };
 
 export default connect(
