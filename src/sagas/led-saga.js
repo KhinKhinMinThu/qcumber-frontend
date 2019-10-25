@@ -2,16 +2,10 @@ import { put, call, takeLatest } from "redux-saga/effects";
 import {
   GET_QUEUEDATA,
   QUEUEDATA,
-  GET_ERROR,
   OCCUPANCYDATA,
   GET_OCCUPANCYDATA
-} from "../reducers/queue-reducer";
-import {
-  BASE_URL,
-  BASE_URL2,
-  APIGET_QUEUEDATA,
-  APIGET_OCCUPANCYDATA
-} from "../props";
+} from "../reducers/led-reducer";
+import { BASE_URL, APIGET_QUEUEDATA, APIGET_OCCUPANCYDATA } from "../props";
 import axios from "axios";
 
 export const api = axios.create({

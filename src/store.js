@@ -3,6 +3,7 @@ import { persistStore } from "redux-persist";
 import { composeWithDevTools } from "redux-devtools-extension"; // eslint-disable-line import/no-extraneous-dependencies
 import createSagaMiddleware from "redux-saga";
 import { createBrowserHistory } from "history";
+import { connectRouter, routerMiddleware } from "connected-react-router";
 // import { connectRouter, routerMiddleware } from "connected-react-router";
 
 import logger from "redux-logger";
@@ -13,11 +14,12 @@ import rootSaga from "./sagas";
 export const history = createBrowserHistory({
   forceRefresh: true
 });
+const rtrMiddleware = routerMiddleware(history); // for dispatching history actions
 const sagaMiddleware = createSagaMiddleware();
 
 export const store = createStore(
-  rootReducer, // new root reducer with router state
-  composeWithDevTools(applyMiddleware(sagaMiddleware, logger))
+  connectRouter(history)(rootReducer), // new root reducer with router state
+  composeWithDevTools(applyMiddleware(sagaMiddleware, logger, rtrMiddleware))
 );
 
 sagaMiddleware.run(rootSaga);

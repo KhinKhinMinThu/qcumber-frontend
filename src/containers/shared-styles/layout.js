@@ -1,12 +1,13 @@
 import { Layout } from "antd";
 import styled from "styled-components";
 import Logo from "../assets/logo.jpg";
-import Grandma from "../assets/grandma.png";
+import Background from "../assets/background.jpg";
 
-// purple: 9F0468
-// orange: f36408 rgb(243, 100, 8)
-// darkgrey: 282828 rgb(159, 4, 104)
-
+export const ContentStyle = {
+  backgroundImage: `url(${Background})`,
+  backgroundSize: "100% auto",
+  backgroundRepeat: "no-repeat"
+};
 export const Header = styled(Layout.Header)`
   height: 4em;
   background: linear-gradient(
@@ -39,7 +40,6 @@ export const Footer = styled.div`
   height: 2em;
   padding-top: 3px;
   background-color: #282828;
-  font-family: psrFont;
   color: #ffffff;
   width: 100%;
 `;
@@ -55,28 +55,10 @@ export const LogoImage = styled.img.attrs({
 `;
 
 export const HeaderText = styled.div`
-  font-family: psrFont;
   font-weight: bold;
   color: #ffffff;
   font-size: 28px;
   // letter-spacing: 0.1em;
   text-align: right;
-  width: 100%;
-`;
-
-export const GrandmaImage = styled.img.attrs({
-  src: Grandma
-})`
-  display: block;
-  max-height: 3.5em;
-  width: auto;
-  height: auto;
-  margin-top: 0.5em;
-`;
-
-export const QueueTitleText = styled.div`
-  font-family: psrFont;
-  font-weight: bold;
-  font-size: 18px;
   width: 100%;
 `;

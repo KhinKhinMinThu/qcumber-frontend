@@ -1,20 +1,30 @@
 import React from "react";
-import "antd/dist/antd.css"; // do not remove this
+// import "antd/dist/antd.css";
+
+// change my-theme.less under antd/dist and
+// run lessc --js my-theme.less  ../../../src/customized-antd.css in terminal
+import "./customized-antd.css";
 import { Provider } from "react-redux";
 import { Switch } from "react-router"; // react-router v4
-import { BrowserRouter as Router, Route } from "react-router-dom";
-import { store } from "./store";
+import { PersistGate } from "redux-persist/lib/integration/react";
+import { BrowserRouter as Router } from "react-router-dom";
+import { store, persistor } from "./store";
 
-import QueuePage from "./containers/queue-path";
+import PrivatePath from "./containers/private-path";
+import PublicPath from "./containers/public-path";
 
 const App = () => {
   return (
     <Provider store={store}>
-      <Router>
-        <Switch>
-          <Route path="*" component={QueuePage} />
-        </Switch>
-      </Router>
+      <PersistGate persistor={persistor}>
+        <Router>
+          <Switch>
+            <PrivatePath exact path="/qc/:pathname" />
+            <PublicPath exact path="/:pathname" />
+            <PublicPath path="*" />
+          </Switch>
+        </Router>
+      </PersistGate>
     </Provider>
   );
 };

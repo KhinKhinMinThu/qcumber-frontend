@@ -1,20 +1,22 @@
 import React, { Component } from "react";
 import { Table } from "antd";
-import { QueueTitleText } from "../shared-styles/page-layout";
+import { QueueTitleText } from "../shared-styles/led-page";
 import { css } from "emotion";
 
 export class QueueTable extends Component {
   render() {
     const { clientsList, title } = this.props;
+    console.log(clientsList);
+    const pagination = clientsList.length > 8 ? { pageSize: 8 } : false;
 
     const columns = [
       {
         title: "No",
-        dataIndex: "no",
-        key: "no",
+        dataIndex: "key",
+        key: "key",
         width: "4%",
         render: (text, record, index) => (
-          <span className="header-row">{`${index + 1}`}</span>
+          <span className="header-row">{`${record.key + 1}`}</span>
         )
       },
       {
@@ -33,7 +35,6 @@ export class QueueTable extends Component {
       <Table
         title={() => <QueueTitleText>{title}</QueueTitleText>}
         className={css`
-          font-family: psrFont;
           padding: 0;
           thead[class*="ant-table-thead"] th {
             background-color: #355667 !important;
@@ -43,14 +44,12 @@ export class QueueTable extends Component {
         `}
         columns={columns}
         rowClassName={css`
-          font-weight: bold;
-          background-color: #ffefd5 !important;
+          background-color: #f0f0f0 !important;
         `}
         dataSource={clientsList}
         size="small"
         bordered={true}
-        // pagination={{ pageSize: 10, hideOnSinglePage: true }}
-        pagination={false}
+        pagination={pagination}
       />
     );
   }

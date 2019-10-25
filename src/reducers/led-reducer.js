@@ -19,10 +19,21 @@ export default function(
   state = {
     getErrMsg: null,
     queueData: [
-      { 1: { name: "k", waitingtime: "2" } },
-      { 1: { name: "k", waitingtime: "2" } }
+      {
+        1: { name: "Dummy Male Q", waitingtime: "1" },
+        2: { name: "Dummy Male Q", waitingtime: "1" },
+        3: { name: "Dummy Male Q", waitingtime: "1" },
+        4: { name: "Dummy Male Q", waitingtime: "1" },
+        5: { name: "Dummy Male Q", waitingtime: "1" },
+        6: { name: "Dummy Male Q", waitingtime: "1" },
+        7: { name: "Dummy Male Q", waitingtime: "1" },
+        8: { name: "Dummy Male Q", waitingtime: "1" },
+        9: { name: "Dummy Male Q", waitingtime: "1" },
+        10: { name: "Dummy Male Q", waitingtime: "1" }
+      }, //male toilet
+      { 1: { name: "Dummy Female Q", waitingtime: "2" } } //female toilet
     ],
-    occupancyData: [{ toilet1: "0", toilet2: "1" }]
+    occupancyData: [{ toilet1: "0", toilet2: "1", toilet3: "0" }] //0: male, 1 onwards: female
   },
   action
 ) {

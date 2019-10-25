@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import { Layout, Icon, Row, Col, Card, Avatar } from "antd";
 import Grandma from "../assets/grandma.png";
 import Grandpa from "../assets/grandpa.png";
-import { getQueueData, getOccupancyData } from "../../reducers/queue-reducer";
+import { getQueueData, getOccupancyData } from "../../reducers/led-reducer";
 import { timer } from "../../props";
 import Clock from "react-digital-clock";
 
@@ -12,9 +12,10 @@ import {
   Header,
   Footer,
   HeaderText,
-  LogoImage
-} from "../shared-styles/page-layout";
-import { QueueTable } from "./components";
+  LogoImage,
+  ContentStyle
+} from "../shared-styles/layout";
+import { QueueTable } from "./led-components";
 
 const maleSvg = (fill, size) => (
   <svg width={size} height={size} fill={fill} viewBox="0 0 1024 1024">
@@ -63,24 +64,21 @@ class QueuePage extends Component {
       queueData: { queueData, occupancyData }
     } = this.props;
 
-    let mclientsList = [],
-      fclientsList = [];
-    if (queueData) {
-      const mObj = queueData[0];
-      const fObj = queueData[1];
-      if (mObj) {
-        mclientsList = this.addKeyToList(Object.values(mObj));
-      }
-      if (fObj) {
-        fclientsList = this.addKeyToList(Object.values(fObj));
-      }
-    }
+    const mclientsList =
+      queueData && queueData[0]
+        ? this.addKeyToList(Object.values(queueData[0]))
+        : [];
+    const fclientsList =
+      queueData && queueData[1]
+        ? this.addKeyToList(Object.values(queueData[1]))
+        : [];
 
     const mtoilet = {},
       ftoilet = {};
+
     if (occupancyData) {
-      mtoilet["toilet1"] = occupancyData.toilet1;
-      Object.entries(occupancyData).forEach(item => {
+      mtoilet["toilet1"] = occupancyData[0].toilet1;
+      Object.entries(occupancyData[0]).forEach(item => {
         if (item[0] !== "toilet1") ftoilet[item[0]] = item[1];
       });
     }
@@ -94,86 +92,91 @@ class QueuePage extends Component {
             <Icon type="smile" theme="twoTone" twoToneColor="#9F0468" />
           </HeaderText>
         </Header>
-        <Content>
+        <Content
+          style={{
+            ...ContentStyle,
+            padding: "0px 10px 0px 10px"
+          }}
+        >
           <div
             style={{
-              background: "#ffffff",
-              padding: "0px 10px 0px 10px"
+              width: "100%",
+              backgroundColor: "#355667",
+              fontWeight: "bold"
             }}
           >
-            <div
-              style={{
-                width: "100%",
-                backgroundColor: "#355667",
-                fontFamily: "psrFont",
-                fontWeight: "bold"
-              }}
-            >
-              <Clock />
-            </div>
-            <Row>
-              <Col span={12}>
-                <Card style={{ height: "34.5em" }}>
-                  <Meta
-                    avatar={<Avatar size={70} src={Grandpa} shape="square" />}
-                    title={false}
-                    description={
-                      <QueueTable
-                        clientsList={mclientsList}
-                        title="Queue for Male Toilet"
-                      />
-                    }
-                  />
-                </Card>
-              </Col>
-              <Col span={12}>
-                <Card style={{ height: "34.5em" }}>
-                  <Meta
-                    avatar={<Avatar size={70} src={Grandma} shape="square" />}
-                    title={false}
-                    description={
-                      <QueueTable
-                        clientsList={fclientsList}
-                        title="Queue for Female Toilet"
-                      />
-                    }
-                  />
-                </Card>
-              </Col>
-            </Row>
-            <Row>
-              <Col span={12}>
-                <Card>
-                  <Row>
-                    {Object.values(mtoilet).map((item, index) => {
-                      const span = 24 / Object.values(mtoilet).length;
-                      const color = item === "0" ? green : red;
-                      return (
-                        <Col key={index} span={span}>
-                          <Icon component={() => maleSvg(color, "8em")} />
-                        </Col>
-                      );
-                    })}
-                  </Row>
-                </Card>
-              </Col>
-              <Col span={12}>
-                <Card>
-                  <Row>
-                    {Object.values(ftoilet).map((item, index) => {
-                      const span = 24 / Object.values(ftoilet).length;
-                      const color = item === "0" ? green : red;
-                      return (
-                        <Col key={index} span={span}>
-                          <Icon component={() => femaleSvg(color, "8em")} />
-                        </Col>
-                      );
-                    })}
-                  </Row>
-                </Card>
-              </Col>
-            </Row>
+            <Clock />
           </div>
+          <Row gutter={10}>
+            <Col span={12}>
+              <Card style={{ minHeight: "34.5em" }}>
+                <Meta
+                  avatar={<Avatar size={70} src={Grandpa} shape="square" />}
+                  title={false}
+                  description={
+                    <QueueTable
+                      clientsList={mclientsList}
+                      title="Queue for Male Toilet"
+                    />
+                  }
+                />
+              </Card>
+            </Col>
+            <Col span={12}>
+              <Card style={{ minHeight: "34.5em" }}>
+                <Meta
+                  avatar={<Avatar size={70} src={Grandma} shape="square" />}
+                  title={false}
+                  description={
+                    <QueueTable
+                      clientsList={fclientsList}
+                      title="Queue for Female Toilet"
+                    />
+                  }
+                />
+              </Card>
+            </Col>
+          </Row>
+          <Row gutter={10} style={{ marginTop: "10px" }}>
+            <Col span={12}>
+              <Card>
+                <Row>
+                  {Object.values(mtoilet).map((item, index) => {
+                    const span = 24 / Object.values(mtoilet).length;
+                    const color = item === "0" ? green : red;
+                    return (
+                      <Col
+                        key={index}
+                        span={span}
+                        style={{ textAlign: "center" }}
+                      >
+                        <Icon component={() => maleSvg(color, "7em")} />
+                      </Col>
+                    );
+                  })}
+                </Row>
+              </Card>
+            </Col>
+            <Col span={12}>
+              <Card>
+                <Row>
+                  {Object.values(ftoilet).map((item, index) => {
+                    const span = 24 / Object.values(ftoilet).length;
+                    const color = item === "0" ? green : red;
+                    return (
+                      <Col
+                        key={index}
+                        span={span}
+                        style={{ textAlign: "center" }}
+                      >
+                        <Icon component={() => femaleSvg(color, "7em")} />
+                      </Col>
+                    );
+                  })}
+                </Row>
+              </Card>
+            </Col>
+          </Row>
         </Content>
         <Footer style={{ textAlign: "center" }}>
           ©2019 Created by Team QueueCumber
@@ -186,8 +189,6 @@ class QueuePage extends Component {
 QueuePage.propTypes = {
   getQueueData: PropTypes.func.isRequired,
   getOccupancyData: PropTypes.func.isRequired
-  // occupancyData: PropTypes.shape({}).isRequired,
-  // queueData: PropTypes.shape({}).isRequired
 };
 
 const mapStateToProps = state => ({
