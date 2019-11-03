@@ -6,7 +6,6 @@ import PrivatePage from "./private-page";
 
 /* eslint react/prop-types: 0 */
 const PrivatePath = ({ isLoggedIn, ...props }) => {
-  console.log("......................", isLoggedIn);
   return isLoggedIn ? (
     <Route {...props} render={() => <PrivatePage {...props} />} />
   ) : (

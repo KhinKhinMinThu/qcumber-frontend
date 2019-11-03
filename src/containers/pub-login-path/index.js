@@ -2,11 +2,12 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { push } from "connected-react-router";
+import { Link } from "react-router-dom";
 import { Form, Layout, Icon, Button, Modal } from "antd";
 import { setLoginData, setLogout } from "../../reducers/login-reducer";
 import { admin_name, admin_password } from "../../props";
 import { store } from "../../store";
-import { TOILETS } from "../assets/urls";
+import { TOILETS, LED } from "../assets/urls";
 
 import { LoginCard, LoginTitle } from "../shared-styles/login-page";
 import {
@@ -50,7 +51,9 @@ class LoginPage extends Component {
     return (
       <Layout style={{ minWidth: "1500px", height: "100vh" }}>
         <Header>
-          <LogoImage />
+          <Link to={LED}>
+            <LogoImage />
+          </Link>
           <HeaderText>
             QUEUE-CUMBER{" "}
             <Icon type="smile" theme="twoTone" twoToneColor="#9F0468" />

@@ -1,12 +1,16 @@
 import React, { Component } from "react";
-import { Table } from "antd";
+import { Table, Icon } from "antd";
 import { QueueTitleText } from "../shared-styles/led-page";
 import { css } from "emotion";
+import { Header, HeaderText, LogoImage } from "../shared-styles/layout";
+import Clock from "react-digital-clock";
+import { TOILETS } from "../assets/urls";
+import { Link } from "react-router-dom";
 
 export class QueueTable extends Component {
   render() {
     const { clientsList, title } = this.props;
-    console.log(clientsList);
+    // console.log(clientsList);
     const pagination = clientsList.length > 8 ? { pageSize: 8 } : false;
 
     const columns = [
@@ -54,3 +58,26 @@ export class QueueTable extends Component {
     );
   }
 }
+
+export const HeaderComp = () => (
+  <div>
+    <Header>
+      <Link to={TOILETS}>
+        <LogoImage />
+      </Link>
+      <HeaderText>
+        TOILET QUEUE STATUS{" "}
+        <Icon type="smile" theme="twoTone" twoToneColor="#9F0468" />
+      </HeaderText>
+    </Header>
+    <div
+      style={{
+        width: "100%",
+        backgroundColor: "#355667",
+        fontWeight: "bold"
+      }}
+    >
+      <Clock />
+    </div>
+  </div>
+);
