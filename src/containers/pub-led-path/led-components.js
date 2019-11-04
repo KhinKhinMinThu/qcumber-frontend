@@ -30,7 +30,7 @@ export class QueueTable extends Component {
         width: "65%"
       },
       {
-        title: "Estimated Waiting Time",
+        title: "Est. Waiting Time",
         dataIndex: "waitingtime",
         key: "waitingtime"
       }

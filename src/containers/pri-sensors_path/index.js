@@ -1,53 +1,122 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import PropTypes from "prop-types";
 import { Layout, Icon, Row, Col, Card, Statistic } from "antd";
+import { getOccupancyData } from "../../reducers/led-reducer";
+import { timer_sensors } from "../../props";
+import moment from "moment";
+import { BoxCard } from "../shared-styles/private-pages";
 import { setLoginData, setLogout } from "../../reducers/login-reducer";
-import { admin_name, admin_password } from "../../props";
-import { store } from "../../store";
 
-import { LoginCard, LoginTitle } from "../shared-styles/login-page";
-import {
-  Header,
-  Footer,
-  HeaderText,
-  LogoImage,
-  ContentStyle
-} from "../shared-styles/layout";
-import { UsernameInput, PasswordInput } from "./sensors-components";
+const green = "#00A86B";
+const red = "#e74f4e";
 
-const { Content, Sider } = Layout;
-
-class ToiletPage extends Component {
-  render() {
+class SensorsPage extends Component {
+  state = { lastCalled: "" };
+  componentDidMount() {
+    const { getOccupancyData } = this.props;
+    getOccupancyData();
+    this.setState({ lastCalled: moment() });
+    this.interval = setInterval(() => {
+      this.setState({ lastCalled: moment() });
+      getOccupancyData();
+    }, timer_sensors);
+  }
+  getStatistic = (title, value, color, prefix) => {
     return (
-      <Row gutter={16}>
-        <Col span={12}>
-          <Card>
-            <Statistic
-              title="Active"
-              value={11.28}
-              precision={2}
-              valueStyle={{ color: "#3f8600" }}
-              prefix={<Icon type="arrow-up" />}
-              suffix="%"
-            />
-          </Card>
-        </Col>
-        <Col span={12}>
-          <Card>
-            <Statistic
-              title="Idle"
-              value={9.3}
-              precision={2}
-              valueStyle={{ color: "#cf1322" }}
-              prefix={<Icon type="arrow-down" />}
-              suffix="%"
-            />
-          </Card>
-        </Col>
-      </Row>
+      <Statistic
+        title={title}
+        value={value}
+        valueStyle={{ color: color }}
+        prefix={<Icon type={prefix} />}
+      />
+    );
+  };
+  render() {
+    const {
+      queueData: { occupancyData }
+    } = this.props;
+
+    const { lastCalled } = this.state;
+    const checkedDate = lastCalled ? lastCalled.format("DD-MMM-YYYY") : "--/";
+    const checkedTime = lastCalled ? lastCalled.format("HH:mm:ss") : "--/";
+
+    let t1Status, t1Color, t2Status, t2Color;
+    if (occupancyData) {
+      t1Status = occupancyData.toilet1 === "9" ? "Inactive" : "Active";
+      t1Color = occupancyData.toilet1 === "9" ? red : green;
+      t2Status = occupancyData.toilet2 === "9" ? "Inactive" : "Active";
+      t2Color = occupancyData.toilet2 === "9" ? red : green;
+    }
+
+    return (
+      <div style={{ height: "100%", paddingTop: "100px" }}>
+        <Row type="flex" justify="space-around" align="middle">
+          <Col span={10}>
+            <BoxCard>
+              <Statistic value={"Toilet 1 Sensor"} />
+              <br />
+              {this.getStatistic("Status", t1Status, t1Color, "wifi")}
+              <br />
+              {this.getStatistic(
+                "Last Checked Date",
+                checkedDate,
+                t1Color,
+                "calendar"
+              )}
+              <br />
+              {this.getStatistic(
+                "Last Checked Time",
+                checkedTime,
+                t1Color,
+                "clock-circle"
+              )}
+              <br />
+              {this.getStatistic("Gender", "Women", t1Color, "woman")}
+            </BoxCard>
+          </Col>
+          <Col span={10}>
+            <BoxCard>
+              <Statistic value={"Toilet 2 Sensor"} />
+              <br />
+              {this.getStatistic("Status", t2Status, t2Color, "wifi")}
+              <br />
+              {this.getStatistic(
+                "Last Checked Date",
+                checkedDate,
+                t2Color,
+                "calendar"
+              )}
+              <br />
+              {this.getStatistic(
+                "Last Checked Time",
+                checkedTime,
+                t2Color,
+                "clock-circle"
+              )}
+              <br />
+              {this.getStatistic("Gender", "Women", t2Color, "woman")}
+            </BoxCard>
+          </Col>
+        </Row>
+      </div>
     );
   }
 }
 
-export default connect()(ToiletPage);
+SensorsPage.propTypes = {
+  getOccupancyData: PropTypes.func.isRequired
+};
+
+const mapStateToProps = state => ({
+  queueData: state.queueData
+});
+
+const mapDispatchToProps = {
+  getOccupancyData: getOccupancyData
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(SensorsPage);

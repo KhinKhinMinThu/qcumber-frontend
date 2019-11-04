@@ -7,6 +7,7 @@ import Grandpa from "../assets/grandpa.png";
 import { femaleSvg, maleSvg } from "./toilets-icons";
 import { getQueueData, getOccupancyData } from "../../reducers/led-reducer";
 import { timer } from "../../props";
+import { QueueCard } from "../shared-styles/led-page";
 
 import { Footer, ContentStyle } from "../shared-styles/layout";
 import { QueueTable, HeaderComp } from "./led-components";
@@ -20,6 +21,8 @@ const { Meta } = Card;
 class QueuePage extends Component {
   componentDidMount() {
     const { getQueueData, getOccupancyData } = this.props;
+    getQueueData();
+    getOccupancyData();
     this.interval = setInterval(() => {
       getQueueData();
       getOccupancyData();
@@ -66,55 +69,45 @@ class QueuePage extends Component {
     return (
       <Layout style={{ minWidth: "1500px", height: "100vh" }}>
         <HeaderComp />
-        <Content style={{ ...ContentStyle, padding: "0px 10px 0px 10px" }}>
-          <Row gutter={10}>
-            <Col span={12}>
-              <Card style={{ minHeight: "34.5em" }}>
-                <Meta
-                  avatar={<Avatar size={70} src={Grandpa} shape="square" />}
-                  title={false}
-                  description={
-                    <QueueTable
-                      clientsList={mclientsList}
-                      title="Queue for Male Toilet"
-                    />
+        <Content style={{ ...ContentStyle, padding: "10px 10px 10px 0px" }}>
+          <Row type="flex" justify="space-around" align="middle">
+            <Col span={11}>
+              <QueueCard>
+                <div style={{ minHeight: "34.5em", width: "100%" }}>
+                  <Meta
+                    avatar={<Avatar size={70} src={Grandpa} shape="square" />}
+                    title={false}
+                    description={
+                      <QueueTable
+                        clientsList={mclientsList}
+                        title="Queue for Male Toilet"
+                      />
+                    }
+                  />
+                </div>
+                <Icon
+                  component={() =>
+                    occupancyData ? this.getIcon("9", "m") : null
                   }
                 />
-              </Card>
+              </QueueCard>
             </Col>
-            <Col span={12}>
-              <Card style={{ minHeight: "34.5em" }}>
-                <Meta
-                  avatar={<Avatar size={70} src={Grandma} shape="square" />}
-                  title={false}
-                  description={
-                    <QueueTable
-                      clientsList={fclientsList}
-                      title="Queue for Female Toilet"
-                    />
-                  }
-                />
-              </Card>
-            </Col>
-          </Row>
-          <Row gutter={10} style={{ marginTop: "10px" }}>
-            <Col span={12}>
-              <Card>
+            <Col span={11}>
+              <QueueCard>
+                <div style={{ minHeight: "34.5em", width: "100%" }}>
+                  <Meta
+                    avatar={<Avatar size={70} src={Grandma} shape="square" />}
+                    title={false}
+                    description={
+                      <QueueTable
+                        clientsList={fclientsList}
+                        title="Queue for Female Toilet"
+                      />
+                    }
+                  />
+                </div>
                 <Row>
-                  <Col key={0} style={{ textAlign: "center" }}>
-                    <Icon
-                      component={() =>
-                        occupancyData ? this.getIcon("9", "m") : null
-                      }
-                    />
-                  </Col>
-                </Row>
-              </Card>
-            </Col>
-            <Col span={12}>
-              <Card>
-                <Row>
-                  <Col span={12} key={1} style={{ textAlign: "center" }}>
+                  <Col span={12} key={1}>
                     <Icon
                       component={() =>
                         occupancyData
@@ -123,7 +116,7 @@ class QueuePage extends Component {
                       }
                     />
                   </Col>
-                  <Col span={12} key={2} style={{ textAlign: "center" }}>
+                  <Col span={12} key={2}>
                     <Icon
                       component={() =>
                         occupancyData
@@ -133,7 +126,7 @@ class QueuePage extends Component {
                     />
                   </Col>
                 </Row>
-              </Card>
+              </QueueCard>
             </Col>
           </Row>
         </Content>
@@ -151,8 +144,7 @@ QueuePage.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  queueData: state.queueData,
-  occupancyData: state.occupancyData
+  queueData: state.queueData
 });
 
 const mapDispatchToProps = {

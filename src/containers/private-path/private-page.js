@@ -12,9 +12,9 @@ import {
   ContentStyle
 } from "../shared-styles/layout";
 import { setLogout } from "../../reducers/login-reducer";
-import ToiletsPage from "../toilets-path";
-import ClientsPage from "../clients-path";
-import SensorsPage from "../sensors_path";
+import ToiletsPage from "../pri-toilets-path";
+import ClientsPage from "../pri-clients-path";
+import SensorsPage from "../pri-sensors_path";
 
 const { Content, Sider } = Layout;
 
@@ -76,6 +76,7 @@ class PrivatePage extends Component {
                 onClick={this.onClick}
                 theme="dark"
                 defaultSelectedKeys={[TOILETS]}
+                selectedKeys={["/qc/".concat(pathname)]}
                 mode="inline"
               >
                 <Menu.Item key={TOILETS}>

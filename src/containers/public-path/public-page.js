@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { LED, DEFAULT } from "../assets/urls";
-import LoginPage from "../login-path";
-import LedPage from "../led-path";
+import LoginPage from "../pub-login-path";
+import LedPage from "../pub-led-path";
 
 class PublicPage extends Component {
   // direct urls (e.g., type localhost:3000/dashboard and enter)

@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { Card } from "antd";
 import Grandma from "../assets/grandma.png";
 
 // purple: 9F0468
@@ -19,4 +20,10 @@ export const QueueTitleText = styled.div`
   font-weight: bold;
   font-size: 18px;
   width: 100%;
+`;
+
+export const QueueCard = styled(Card)`
+  height: 100%;
+  box-shadow: 0 8px 12px 0 rgba(0, 0, 0, 0.2), 0 12px 26px 0 rgba(0, 0, 0, 0.19);
+  text-align: center;
 `;
