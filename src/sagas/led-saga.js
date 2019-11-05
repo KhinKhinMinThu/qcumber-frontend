@@ -13,17 +13,7 @@ export const api = axios.create({
   baseURL: BASE_URL
 });
 
-export const api2 = axios.create({
-  timeout: 10000,
-  baseURL: BASE_URL
-});
-
 api.interceptors.request.use(request => {
-  console.log("Starting Request", request);
-  return request;
-});
-
-api2.interceptors.request.use(request => {
   console.log("Starting Request", request);
   return request;
 });
@@ -31,7 +21,7 @@ api2.interceptors.request.use(request => {
 // GET REQUEST
 const getQueueData = authHeader => api.get(APIGET_QUEUEDATA, authHeader);
 const getOccupancyData = authHeader =>
-  api2.get(APIGET_OCCUPANCYDATA, authHeader);
+  api.get(APIGET_OCCUPANCYDATA, authHeader);
 
 const authHeader = {
   headers: {

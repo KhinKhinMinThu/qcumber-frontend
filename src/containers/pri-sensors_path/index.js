@@ -1,12 +1,11 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import { Layout, Icon, Row, Col, Card, Statistic } from "antd";
+import { Icon, Row, Col, Statistic } from "antd";
 import { getOccupancyData } from "../../reducers/led-reducer";
 import { timer_sensors } from "../../props";
 import moment from "moment";
 import { BoxCard } from "../shared-styles/private-pages";
-import { setLoginData, setLogout } from "../../reducers/login-reducer";
 
 const green = "#00A86B";
 const red = "#e74f4e";

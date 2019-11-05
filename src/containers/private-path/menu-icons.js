@@ -22,7 +22,6 @@ export const oldSvg = () => (
 export const sensorsSvg = () => (
   <svg
     t="1572703249789"
-    class="icon"
     viewBox="0 0 1024 1024"
     p-id="1757"
     width="20"

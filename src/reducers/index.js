@@ -4,6 +4,7 @@ import localStorage from "redux-persist/lib/storage";
 import autoMergeLevel2 from "redux-persist/lib/stateReconciler/autoMergeLevel2";
 import queueDataReducer from "./led-reducer";
 import loginDataReducer from "./login-reducer";
+import toiletsDataReducer from "./toilets-reducer";
 /**
  * LocalStorage: storage engine for storing redux state
  * autoMergeLevel2: when restoring state during app launch,
@@ -18,7 +19,8 @@ export const loginPersistConfig = {
 
 const rootReducer = combineReducers({
   loginData: persistReducer(loginPersistConfig, loginDataReducer),
-  queueData: queueDataReducer
+  queueData: queueDataReducer,
+  toiletsData: toiletsDataReducer
 });
 
 export default rootReducer;

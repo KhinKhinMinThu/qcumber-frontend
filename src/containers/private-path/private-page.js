@@ -115,6 +115,10 @@ class PrivatePage extends Component {
   }
 }
 
+// const mapStateToProps = state => ({
+//   queueData: state.queueData
+// });
+
 const mapDispatchToProps = {
   performLogout: setLogout
 };
