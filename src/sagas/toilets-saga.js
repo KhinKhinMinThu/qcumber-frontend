@@ -15,7 +15,7 @@ api.interceptors.request.use(request => {
 
 // POST REQUEST
 const postToiletsDate = (updateDate, authHeader) =>
-  api.post(APIPOST_TOILETSDATE, updateDate, authHeader);
+  api.post(APIPOST_TOILETSDATE, { date_filter: updateDate }, authHeader);
 
 const authHeader = {
   headers: {

@@ -48,7 +48,7 @@ class QueuePage extends Component {
     if (status === "1") color = red;
 
     const icon =
-      gender === "m" ? maleSvg(color, "7em") : femaleSvg(color, "7em");
+      gender === "m" ? maleSvg(color, "6em") : femaleSvg(color, "6em");
     return icon;
   };
 
@@ -90,6 +90,9 @@ class QueuePage extends Component {
                     occupancyData ? this.getIcon("9", "m") : null
                   }
                 />
+                <Row>
+                  <Col span={24}>Toilet 0</Col>
+                </Row>
               </QueueCard>
             </Col>
             <Col span={11}>
@@ -106,8 +109,9 @@ class QueuePage extends Component {
                     }
                   />
                 </div>
+
                 <Row>
-                  <Col span={12} key={1}>
+                  <Col span={8} key={1}>
                     <Icon
                       component={() =>
                         occupancyData
@@ -116,7 +120,7 @@ class QueuePage extends Component {
                       }
                     />
                   </Col>
-                  <Col span={12} key={2}>
+                  <Col span={8} key={2}>
                     <Icon
                       component={() =>
                         occupancyData
@@ -125,6 +129,20 @@ class QueuePage extends Component {
                       }
                     />
                   </Col>
+                  <Col span={8} key={3}>
+                    <Icon
+                      component={() =>
+                        occupancyData
+                          ? this.getIcon(occupancyData.toilet3, "f")
+                          : null
+                      }
+                    />
+                  </Col>
+                </Row>
+                <Row>
+                  <Col span={8}>Toilet 1</Col>
+                  <Col span={8}>Toilet 2</Col>
+                  <Col span={8}>Toilet 3</Col>
                 </Row>
               </QueueCard>
             </Col>
