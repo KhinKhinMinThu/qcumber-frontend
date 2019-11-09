@@ -2,53 +2,38 @@ import React from "react";
 import { Chart, Geom, Axis, Tooltip, Legend } from "bizcharts";
 import DataSet from "@antv/data-set";
 
-const OccupancyChartMins = ({ datafrombk }) => {
-  const data = [
-    {
-      toiletId: "Toilet 1",
-      "7-8 am": 12,
-      "8-9 am": 11,
-      "9-10 am": 20,
-      "10-11 am": 40,
-      "11-12 pm": 10,
-      "12-1 pm": 30,
-      "1-2 pm": 5,
-      "2-3 pm": 44,
-      "3-4 pm": 53,
-      "4-5 pm": 18,
-      "5-6 pm": 24
-    },
-    {
-      toiletId: "Toilet 2",
-      "7-8 am": 9,
-      "8-9 am": 28,
-      "9-10 am": 38,
-      "10-11 am": 53,
-      "11-12 pm": 32,
-      "12-1 pm": 3,
-      "1-2 pm": 0,
-      "2-3 pm": 23,
-      "3-4 pm": 12,
-      "4-5 pm": 11,
-      "5-6 pm": 38
-    }
-  ];
+const prepareData = (toilet, number) => {
+  return toilet
+    ? {
+        toiletId: `Toilet ${number}`,
+        "10-11 am": parseInt(toilet["10"] / 60), // convert seconds to minutes
+        "11-12 pm": parseInt(toilet["11"] / 60),
+        "12-1 pm": parseInt(toilet["12"] / 60),
+        "1-2 pm": parseInt(toilet["13"] / 60),
+        "2-3 pm": parseInt(toilet["14"] / 60),
+        "3-4 pm": parseInt(toilet["15"] / 60)
+        // "4-5 pm": parseInt(toilet["16"] / 60)
+      }
+    : {};
+};
+
+const OccupancyChartMins = ({ toilet1Data, toilet2Data, toilet3Data }) => {
+  const data = [];
+  data.push(prepareData(toilet1Data, 1));
+  data.push(prepareData(toilet2Data, 2));
+  data.push(prepareData(toilet3Data, 3));
   const ds = new DataSet();
   const dv = ds.createView().source(data);
   dv.transform({
     type: "fold",
     fields: [
-      "7-8 am",
-      "8-9 am",
-      "9-10 am",
       "10-11 am",
       "11-12 pm",
       "12-1 pm",
       "1-2 pm",
       "2-3 pm",
-      "3-4 pm",
-      "4-5 pm",
-      "5-6 pm"
+      "3-4 pm"
+      // "4-5 pm"
     ],
     key: "Hours",
     value: "Minutes"
@@ -61,7 +46,7 @@ const OccupancyChartMins = ({ datafrombk }) => {
     }
   };
   return (
-    <Chart height={500} width={500} data={dv} forceFit scale={scale}>
+    <Chart height={480} width={500} data={dv} forceFit scale={scale}>
       <Axis name="Hours" />
       <Axis name="Minutes" title />
       <Legend />
