@@ -1,6 +1,6 @@
 import React from "react";
 import moment from "moment";
-import { Chart, Geom, Axis, Tooltip, Legend } from "bizcharts";
+import { Chart, Geom, Axis, Tooltip, Label } from "bizcharts";
 
 const ClientQueueChart = ({ clientQueueData }) => {
   let queueData = clientQueueData.map(item => {
@@ -40,17 +40,17 @@ const ClientQueueChart = ({ clientQueueData }) => {
 
     return data;
   };
-  console.log(">>>>>>>>>>>", prepareData(queueData));
+  // console.log(">>>>>>>>>>>", prepareData(queueData));
 
   const cols = {
     visits: {
       alias: "Number of visits to toilet",
       tickInterval: 1,
-      max: 6,
+      max: 5,
       min: 0
     },
     duration: {
-      alias: "Duration in toilet",
+      alias: "Total duration in toilet (in minutes)",
       tickInterval: 5,
       nice: false,
       max: 35,
@@ -62,24 +62,55 @@ const ClientQueueChart = ({ clientQueueData }) => {
   };
   return (
     <div>
-      <Chart height={550} data={prepareData(queueData)} scale={cols} forceFit>
-        <Tooltip
-          crosshairs={{
-            type: "cross"
+      <Chart
+        height={550}
+        width={800}
+        data={prepareData(queueData)}
+        padding={[20, 20, 50, 70]}
+        scale={cols}
+        plotBackground={{
+          stroke: "#ccc",
+          lineWidth: 1
+        }}
+        forceFit
+      >
+        <Axis
+          name="name"
+          grid={{
+            lineStyle: {
+              stroke: "#d9d9d9",
+              lineWidth: 1,
+              lineDash: [2, 2]
+            }
           }}
         />
-        <Axis name="visits" />
-        <Axis name="duration" />
-        <Legend reversed />
+        <Axis name="visits" title />
+
+        <Tooltip />
         <Geom
           type="point"
-          position="duration*visits"
-          color="name"
-          opacity={0.65}
+          position="name*visits"
+          color="duration"
+          style={{
+            ineWidth: 1,
+            stroke: "#1890ff"
+          }}
           shape="circle"
-          size={4}
-          adjust="jitter"
-        />
+          size={["duration", [10, 40]]}
+          tooltip="name*visits*duration"
+          opacity={0.3}
+        >
+          <Label
+            content="duration"
+            offset={0}
+            textStyle={{
+              fill: "#1890FF"
+            }}
+            formatter={(text, item, index) => {
+              return text + " min";
+            }}
+          />
+        </Geom>
       </Chart>
     </div>
   );
@@ -152,3 +183,23 @@ export default ClientQueueChart;
 //   </Geom>
 // </Chart>
 // </div>
+
+// <Chart height={550} data={prepareData(queueData)} scale={cols} forceFit>
+//   <Tooltip
+//     crosshairs={{
+//       type: "cross"
+//     }}
+//   />
+//   <Axis name="visits" />
+//   <Axis name="duration" />
+//   <Legend reversed />
+//   <Geom
+//     type="point"
+//     position="duration*visits"
+//     color="name"
+//     opacity={0.65}
+//     shape="circle"
+//     size={4}
+//     adjust="jitter"
+//   />
+// </Chart>;

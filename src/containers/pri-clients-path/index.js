@@ -1,30 +1,43 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { List, Avatar, Icon, Row, Col } from "antd";
+import { List, Avatar, Icon, Row, Col, Statistic, Button, Modal } from "antd";
 import { ClientCard } from "../shared-styles/private-pages";
 import ClientQueueChart from "./client-queue-component";
-import Bubbleimage from "./test";
-import GM1 from "../assets/gm1.jpg";
-import GM2 from "../assets/gm2.jpg";
-import GM3 from "../assets/gm3.jpg";
-import GM4 from "../assets/gm4.jpg";
-import GM5 from "../assets/gm5.jpg";
-import GM6 from "../assets/gm6.jpg";
+import ClientToiletUsage from "./client-usage-component";
 
 class ClientsPage extends Component {
+  state = { visible: false, selectedName: null };
+  showClientDetail = name => {
+    this.setState({
+      visible: true,
+      selectedName: name
+    });
+  };
+
+  handleOk = e => {
+    this.setState({
+      visible: false
+    });
+  };
+
+  handleCancel = e => {
+    this.setState({
+      visible: false
+    });
+  };
+
   getRandomInt = max => {
     return Math.floor(Math.random() * Math.floor(max));
   };
   prepareData = clientData => {
-    const imgList = [GM1, GM2, GM3, GM4, GM5, GM6];
     const listData = [];
     if (clientData) {
       clientData.forEach(item => {
         const color = item.priority === "Yes" ? "#ff9900" : "#999999";
         listData.push({
-          href: "http://ant.design",
+          alias: item.name,
           name: <span style={{ fontSize: 18 }}>{item.name}</span>,
-          img: imgList[this.getRandomInt(6)],
+          img: item.img,
           description: (
             <span>
               <Icon
@@ -50,12 +63,12 @@ class ClientsPage extends Component {
     const {
       clientData: { clientData, clientQueueData }
     } = this.props;
-
+    const { selectedName } = this.state;
     return (
       <div style={{ height: "100%", padding: "10px" }}>
         <ClientCard>
           <Row>
-            <Col span={6}>
+            <Col span={5}>
               <List
                 itemLayout="horizontal"
                 size="small"
@@ -66,19 +79,47 @@ class ClientsPage extends Component {
                 dataSource={this.prepareData(clientData)}
                 renderItem={item => (
                   <List.Item key={item.name}>
-                    <a href={item.href}>
-                      <List.Item.Meta
-                        avatar={<Avatar size={62} src={item.img} />}
-                        title={item.name}
-                        description={item.description}
-                      />
-                    </a>
+                    <List.Item.Meta
+                      avatar={<Avatar size={62} src={item.img} />}
+                      title={
+                        <Button
+                          type="link"
+                          onClick={() => this.showClientDetail(item.alias)}
+                        >
+                          {item.name}
+                        </Button>
+                      }
+                      description={item.description}
+                    />
                   </List.Item>
                 )}
               />
+              <Modal
+                title={selectedName + " (2019-11-08)"}
+                visible={this.state.visible}
+                onOk={this.handleOk}
+                onCancel={this.handleCancel}
+                footer={[
+                  <Button
+                    type="primary"
+                    key="close"
+                    onClick={this.handleCancel}
+                  >
+                    Close
+                  </Button>
+                ]}
+              >
+                <ClientToiletUsage
+                  clientQueueData={clientQueueData}
+                  selectedName={selectedName}
+                />
+              </Modal>
             </Col>
-            <Col span={18}>
-              <Bubbleimage />
+            <Col span={19}>
+              <ClientQueueChart clientQueueData={clientQueueData} />
+              <div style={{ textAlign: "center", width: "100%" }}>
+                <Statistic value={"Clients Toilet Usuage (2019-11-08)"} />
+              </div>
             </Col>
           </Row>
         </ClientCard>
