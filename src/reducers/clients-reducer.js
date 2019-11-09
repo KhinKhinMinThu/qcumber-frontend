@@ -236,13 +236,13 @@ export default function(
         leavetime: "2019-11-08 13:38:00"
       },
       {
-        name: "Pang Ah N",
+        name: "Phang Ah N",
         toiletId: "1",
         entertime: "2019-11-08 11:51:00",
         leavetime: "2019-11-08 11:54:00"
       },
       {
-        name: "Pang Ah N",
+        name: "Phang Ah N",
         toiletId: "3",
         entertime: "2019-11-08 13:10:00",
         leavetime: "2019-11-08 13:15:00"

@@ -25,8 +25,10 @@ class ClientToiletUsage extends React.Component {
   };
   render() {
     const { clientQueueData, selectedName } = this.props;
+    console.log("Selected name: ", selectedName);
 
     const data = this.prepareData(clientQueueData, selectedName);
+    console.log("data: ", data);
     const scale = {
       duration: {
         alias: "Duration in toilet (in minutes)",

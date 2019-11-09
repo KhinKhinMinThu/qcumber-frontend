@@ -64,6 +64,8 @@ class ClientsPage extends Component {
       clientData: { clientData, clientQueueData }
     } = this.props;
     const { selectedName } = this.state;
+
+    // console.log("Data: ", this.prepareData(clientData));
     return (
       <div style={{ height: "100%", padding: "10px" }}>
         <ClientCard>
