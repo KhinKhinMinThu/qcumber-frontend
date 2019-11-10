@@ -42,12 +42,31 @@ class SensorsPage extends Component {
 
     let t1Status, t1Color, t2Status, t2Color, t3Status, t3Color;
     if (occupancyData) {
-      t1Status = occupancyData.toilet1 === "9" ? "Inactive" : "Active";
-      t1Color = occupancyData.toilet1 === "9" ? red : green;
-      t2Status = occupancyData.toilet2 === "9" ? "Inactive" : "Active";
-      t2Color = occupancyData.toilet2 === "9" ? red : green;
-      t3Status = occupancyData.toilet3 === "9" ? "Inactive" : "Active";
-      t3Color = occupancyData.toilet3 === "9" ? red : green;
+      t1Status = "Inactive";
+      t1Color = red;
+      t2Status = "Inactive";
+      t2Color = red;
+      t3Status = "Inactive";
+      t3Color = red;
+
+      // t1Status =
+      //   occupancyData.toilet1 && occupancyData.toilet1 !== "9"
+      //     ? "Active"
+      //     : "Inactive";
+      // t1Color =
+      //   occupancyData.toilet1 && occupancyData.toilet1 !== "9" ? green : red;
+      // t2Status =
+      //   occupancyData.toilet2 && occupancyData.toilet2 !== "9"
+      //     ? "Active"
+      //     : "Inactive";
+      // t2Color =
+      //   occupancyData.toilet2 && occupancyData.toilet2 !== "9" ? green : red;
+      // t3Status =
+      //   occupancyData.toilet3 && occupancyData.toilet3 !== "9"
+      //     ? "Active"
+      //     : "Inactive";
+      // t3Color =
+      //   occupancyData.toilet3 && occupancyData.toilet3 !== "9" ? green : red;
     }
 
     return (
