@@ -42,31 +42,31 @@ class SensorsPage extends Component {
 
     let t1Status, t1Color, t2Status, t2Color, t3Status, t3Color;
     if (occupancyData) {
-      t1Status = "Inactive";
-      t1Color = red;
-      t2Status = "Inactive";
-      t2Color = red;
-      t3Status = "Inactive";
-      t3Color = red;
+      // t1Status = "Inactive";
+      // t1Color = red;
+      // t2Status = "Inactive";
+      // t2Color = red;
+      // t3Status = "Inactive";
+      // t3Color = red;
 
-      // t1Status =
-      //   occupancyData.toilet1 && occupancyData.toilet1 !== "9"
-      //     ? "Active"
-      //     : "Inactive";
-      // t1Color =
-      //   occupancyData.toilet1 && occupancyData.toilet1 !== "9" ? green : red;
-      // t2Status =
-      //   occupancyData.toilet2 && occupancyData.toilet2 !== "9"
-      //     ? "Active"
-      //     : "Inactive";
-      // t2Color =
-      //   occupancyData.toilet2 && occupancyData.toilet2 !== "9" ? green : red;
-      // t3Status =
-      //   occupancyData.toilet3 && occupancyData.toilet3 !== "9"
-      //     ? "Active"
-      //     : "Inactive";
-      // t3Color =
-      //   occupancyData.toilet3 && occupancyData.toilet3 !== "9" ? green : red;
+      t1Status =
+        occupancyData.toilet1 && occupancyData.toilet1 !== "9"
+          ? "Active"
+          : "Inactive";
+      t1Color =
+        occupancyData.toilet1 && occupancyData.toilet1 !== "9" ? green : red;
+      t2Status =
+        occupancyData.toilet2 && occupancyData.toilet2 !== "9"
+          ? "Active"
+          : "Inactive";
+      t2Color =
+        occupancyData.toilet2 && occupancyData.toilet2 !== "9" ? green : red;
+      t3Status =
+        occupancyData.toilet3 && occupancyData.toilet3 !== "9"
+          ? "Active"
+          : "Inactive";
+      t3Color =
+        occupancyData.toilet3 && occupancyData.toilet3 !== "9" ? green : red;
     }
 
     return (
@@ -159,7 +159,4 @@ const mapDispatchToProps = {
   getOccupancyData: getOccupancyData
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(SensorsPage);
+export default connect(mapStateToProps, mapDispatchToProps)(SensorsPage);

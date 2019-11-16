@@ -1,12 +1,32 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { List, Avatar, Icon, Row, Col, Statistic, Button, Modal } from "antd";
+import {
+  List,
+  Avatar,
+  Icon,
+  Row,
+  Col,
+  Statistic,
+  Button,
+  Modal,
+  Tabs
+} from "antd";
 import { ClientCard } from "../shared-styles/private-pages";
+import {
+  postClientData,
+  postClientQueueData
+} from "../../reducers/clients-reducer";
 import ClientQueueChart from "./client-queue-component";
 import ClientToiletUsage from "./client-usage-component";
-
+import ClientToiletAverage from "./client-average-component";
+const { TabPane } = Tabs;
 class ClientsPage extends Component {
   state = { visible: false, selectedName: null };
+  componentDidMount() {
+    const { postClientData, postClientQueueData } = this.props;
+    postClientData();
+    postClientQueueData();
+  }
   showClientDetail = name => {
     this.setState({
       visible: true,
@@ -65,7 +85,6 @@ class ClientsPage extends Component {
     } = this.props;
     const { selectedName } = this.state;
 
-    // console.log("Data: ", this.prepareData(clientData));
     return (
       <div style={{ height: "100%", padding: "10px" }}>
         <ClientCard>
@@ -118,10 +137,38 @@ class ClientsPage extends Component {
               </Modal>
             </Col>
             <Col span={19}>
-              <ClientQueueChart clientQueueData={clientQueueData} />
-              <div style={{ textAlign: "center", width: "100%" }}>
-                <Statistic value={"Clients Toilet Usuage (2019-11-08)"} />
-              </div>
+              <Tabs defaultActiveKey="1">
+                <TabPane
+                  tab={
+                    <span>
+                      <Icon type="dot-chart" />
+                      Overall Usuage
+                    </span>
+                  }
+                  key="1"
+                >
+                  <ClientQueueChart clientQueueData={clientQueueData} />
+                  <div style={{ textAlign: "center", width: "100%" }}>
+                    <Statistic value={"Clients Toilet Usuage (2019-11-08)"} />
+                  </div>
+                </TabPane>
+                <TabPane
+                  tab={
+                    <span>
+                      <Icon type="bar-chart" />
+                      Average Time
+                    </span>
+                  }
+                  key="2"
+                >
+                  <ClientToiletAverage clientQueueData={clientQueueData} />
+                  <div style={{ textAlign: "center", width: "100%" }}>
+                    <Statistic
+                      value={"Clients Averge Time Spent in Toilet (2019-11-08)"}
+                    />
+                  </div>
+                </TabPane>
+              </Tabs>
             </Col>
           </Row>
         </ClientCard>
@@ -134,7 +181,8 @@ const mapStateToProps = state => ({
   clientData: state.clientData
 });
 
-export default connect(
-  mapStateToProps,
-  null
-)(ClientsPage);
+const mapDispatchToProps = {
+  postClientData: postClientData,
+  postClientQueueData: postClientQueueData
+};
+export default connect(mapStateToProps, mapDispatchToProps)(ClientsPage);

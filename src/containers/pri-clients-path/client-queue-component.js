@@ -3,13 +3,15 @@ import moment from "moment";
 import { Chart, Geom, Axis, Tooltip, Label } from "bizcharts";
 
 const ClientQueueChart = ({ clientQueueData }) => {
-  let queueData = clientQueueData.map(item => {
-    const startTime = moment(item.entertime, "YYYY-MM-DD hh:mm:ss");
-    const endTime = moment(item.leavetime, "YYYY-MM-DD hh:mm:ss");
-    const duration = moment.duration(endTime.diff(startTime));
-    item.duration = duration.asMinutes();
-    return item;
-  });
+  let queueData = clientQueueData
+    ? clientQueueData.map(item => {
+        const startTime = moment(item.entertime, "YYYY-MM-DD hh:mm:ss");
+        const endTime = moment(item.leavetime, "YYYY-MM-DD hh:mm:ss");
+        const duration = moment.duration(endTime.diff(startTime));
+        item.duration = duration.asMinutes();
+        return item;
+      })
+    : [];
   const countVisits = name => {
     return clientQueueData.reduce((n, x) => n + (x.name === name), 0);
   };
@@ -40,7 +42,7 @@ const ClientQueueChart = ({ clientQueueData }) => {
 
     return data;
   };
-  // console.log(">>>>>>>>>>>", prepareData(queueData));
+  console.log(">>>>>>>>>>>", prepareData(queueData));
 
   const cols = {
     visits: {
@@ -63,10 +65,10 @@ const ClientQueueChart = ({ clientQueueData }) => {
   return (
     <div>
       <Chart
-        height={550}
+        height={510}
         width={800}
         data={prepareData(queueData)}
-        padding={[20, 20, 50, 70]}
+        padding={[5, 20, 50, 70]}
         scale={cols}
         plotBackground={{
           stroke: "#ccc",

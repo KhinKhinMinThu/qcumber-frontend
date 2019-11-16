@@ -65,7 +65,6 @@ class QueuePage extends Component {
       queueData && queueData[1]
         ? this.addKeyToList(Object.values(queueData[1]))
         : [];
-
     return (
       <Layout style={{ minWidth: "1500px", height: "100vh" }}>
         <HeaderComp />
@@ -170,10 +169,7 @@ const mapDispatchToProps = {
   getOccupancyData: getOccupancyData
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(QueuePage);
+export default connect(mapStateToProps, mapDispatchToProps)(QueuePage);
 
 // saved codes
 
