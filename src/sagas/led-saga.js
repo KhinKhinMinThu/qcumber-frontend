@@ -40,6 +40,14 @@ function* asyncGetQueueData() {
       if (data) {
         yield put({ type: QUEUEDATA, payload: data });
       }
+      // const dummy = [
+      //   {}, //male toilet
+      //   {
+      //     1: { name: "Guna", waitingtime: "2" },
+      //     2: { name: "Mong", waitingtime: "4" }
+      //   } //female toilet
+      // ];
+      // yield put({ type: QUEUEDATA, payload: dummy });
     }
   } catch (e) {
     errMsg = e.message;

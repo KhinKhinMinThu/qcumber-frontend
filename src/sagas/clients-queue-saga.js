@@ -1,7 +1,10 @@
 import { put, call, takeLatest } from "redux-saga/effects";
 import { BASE_URL, APIPOST_CLIENTQUEUEDATA } from "../props";
 import axios from "axios";
-import { POST_CLIENTQUEUEDATA, QUEUEDATA } from "../reducers/clients-reducer";
+import {
+  POST_CLIENTQUEUEDATA,
+  CLIENTQUEUEDATA
+} from "../reducers/clients-reducer";
 
 export const api = axios.create({
   timeout: 10000,
@@ -30,7 +33,7 @@ const changeFormat = data => {
   const format = [];
   // { name: "Ah Choo", entertime: "2019-11-08 13:08:00", leavetime: "2019-11-08 13:15:00"},
   data.forEach(item => {
-    if (item[2]) {
+    if (item[2] && item[1].substring(0, 10) === "2019-11-08") {
       format.push({
         name: item[0],
         entertime: item[1],
@@ -53,7 +56,7 @@ function* asyncPostClientQueueData(action) {
       console.log("Getting response: ", response);
       const { data } = response;
       if (data) {
-        yield put({ type: QUEUEDATA, payload: changeFormat(data) });
+        yield put({ type: CLIENTQUEUEDATA, payload: changeFormat(data) });
       }
     }
   } catch (e) {

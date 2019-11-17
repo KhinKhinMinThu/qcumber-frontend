@@ -7,7 +7,7 @@
 
 export const POST_CLIENTDATA = "[POST_CLIENTDATA]";
 export const POST_CLIENTQUEUEDATA = "[POST_CLIENTQUEUEDATA]";
-export const QUEUEDATA = "[QUEUEDATA]";
+export const CLIENTQUEUEDATA = "[CLIENTQUEUEDATA]";
 export const CLIENTDATA = "[ClIENTDATA]";
 
 export const postClientData = () => ({ type: POST_CLIENTDATA });
@@ -351,7 +351,7 @@ export default function(
         ...state,
         clientData: action.payload
       };
-    case QUEUEDATA:
+    case CLIENTQUEUEDATA:
       return {
         ...state,
         clientQueueData: action.payload

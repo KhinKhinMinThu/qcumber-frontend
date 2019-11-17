@@ -114,7 +114,7 @@ function* asyncPostToiletsDate(action) {
         const toilet3 = sliceArray(
           filterArray(data.filter(item => item[0] === 3))
         );
-        console.log(">>>>>>>>>>>>>>>>>>> toilet1", toilet1);
+        // console.log(">>>>>>>>>>>>>>>>>>> toilet1", toilet1);
         yield put({ type: TOILET1DATA, payload: extractDuration(toilet1) });
         yield put({ type: TOILET2DATA, payload: extractDuration(toilet2) });
         yield put({ type: TOILET3DATA, payload: extractDuration(toilet3) });

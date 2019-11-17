@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import { Icon, Row, Col, Statistic } from "antd";
+import { Icon, Row, Col, Statistic, Alert } from "antd";
 import { getOccupancyData } from "../../reducers/led-reducer";
 import { timer_sensors } from "../../props";
 import moment from "moment";
@@ -24,6 +24,7 @@ class SensorsPage extends Component {
   getStatistic = (title, value, color, prefix) => {
     return (
       <Statistic
+        style={{ marginLeft: "80px" }}
         title={title}
         value={value}
         valueStyle={{ color: color }}
@@ -39,16 +40,28 @@ class SensorsPage extends Component {
     const { lastCalled } = this.state;
     const checkedDate = lastCalled ? lastCalled.format("DD-MMM-YYYY") : "--/";
     const checkedTime = lastCalled ? lastCalled.format("HH:mm:ss") : "--/";
+    const error = (
+      <Alert
+        style={{ marginTop: "20px" }}
+        message="NO SIGNAL"
+        description="Please check the toilet sensor!"
+        type="error"
+        showIcon
+      />
+    );
+
+    const success = (
+      <Alert
+        style={{ marginTop: "20px" }}
+        message="RUNNING"
+        description="No action needed!"
+        type="success"
+        showIcon
+      />
+    );
 
     let t1Status, t1Color, t2Status, t2Color, t3Status, t3Color;
     if (occupancyData) {
-      // t1Status = "Inactive";
-      // t1Color = red;
-      // t2Status = "Inactive";
-      // t2Color = red;
-      // t3Status = "Inactive";
-      // t3Color = red;
-
       t1Status =
         occupancyData.toilet1 && occupancyData.toilet1 !== "9"
           ? "Active"
@@ -70,11 +83,14 @@ class SensorsPage extends Component {
     }
 
     return (
-      <div style={{ height: "100%", paddingTop: "100px" }}>
+      <div style={{ height: "100%", paddingTop: "30px" }}>
         <Row type="flex" justify="space-around" align="middle">
           <Col span={7}>
             <BoxCard>
-              <Statistic value={"Toilet 1 Sensor"} />
+              <Statistic
+                style={{ marginLeft: "80px" }}
+                value={"Toilet 1 Sensor"}
+              />
               <br />
               {this.getStatistic("Status", t1Status, t1Color, "wifi")}
               <br />
@@ -93,11 +109,15 @@ class SensorsPage extends Component {
               )}
               <br />
               {this.getStatistic("Gender", "Women", t1Color, "woman")}
+              {t1Color === green ? success : error}
             </BoxCard>
           </Col>
           <Col span={7}>
             <BoxCard>
-              <Statistic value={"Toilet 2 Sensor"} />
+              <Statistic
+                style={{ marginLeft: "80px" }}
+                value={"Toilet 2 Sensor"}
+              />
               <br />
               {this.getStatistic("Status", t2Status, t2Color, "wifi")}
               <br />
@@ -116,11 +136,15 @@ class SensorsPage extends Component {
               )}
               <br />
               {this.getStatistic("Gender", "Women", t2Color, "woman")}
+              {t2Color === green ? success : error}
             </BoxCard>
           </Col>
           <Col span={7}>
             <BoxCard>
-              <Statistic value={"Toilet 3 Sensor"} />
+              <Statistic
+                style={{ marginLeft: "80px" }}
+                value={"Toilet 3 Sensor"}
+              />
               <br />
               {this.getStatistic("Status", t3Status, t3Color, "wifi")}
               <br />
@@ -139,6 +163,7 @@ class SensorsPage extends Component {
               )}
               <br />
               {this.getStatistic("Gender", "Women", t3Color, "woman")}
+              {t3Color === green ? success : error}
             </BoxCard>
           </Col>
         </Row>

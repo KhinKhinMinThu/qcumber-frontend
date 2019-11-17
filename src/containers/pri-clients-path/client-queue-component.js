@@ -42,7 +42,7 @@ const ClientQueueChart = ({ clientQueueData }) => {
 
     return data;
   };
-  console.log(">>>>>>>>>>>", prepareData(queueData));
+  //console.log(">>>>>>>>>>>", prepareData(queueData));
 
   const cols = {
     visits: {
@@ -65,7 +65,7 @@ const ClientQueueChart = ({ clientQueueData }) => {
   return (
     <div>
       <Chart
-        height={510}
+        height={450}
         width={800}
         data={prepareData(queueData)}
         padding={[5, 20, 50, 70]}

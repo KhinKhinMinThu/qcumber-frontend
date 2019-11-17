@@ -1,17 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import {
-  List,
-  Avatar,
-  Icon,
-  Row,
-  Col,
-  Statistic,
-  Button,
-  Modal,
-  Tabs
-} from "antd";
-import { ClientCard } from "../shared-styles/private-pages";
+import { List, Avatar, Icon, Row, Col, Alert, Button, Modal, Tabs } from "antd";
+import { ClientCard, CenterBox } from "../shared-styles/private-pages";
 import {
   postClientData,
   postClientQueueData
@@ -86,7 +76,7 @@ class ClientsPage extends Component {
     const { selectedName } = this.state;
 
     return (
-      <div style={{ height: "100%", padding: "10px" }}>
+      <div style={{ height: "100%" }}>
         <ClientCard>
           <Row>
             <Col span={5}>
@@ -147,10 +137,19 @@ class ClientsPage extends Component {
                   }
                   key="1"
                 >
+                  <Alert
+                    style={{ marginLeft: "60px", marginBottom: "5px" }}
+                    message="THERESA: 4 toilet visits within 2 hours"
+                    description="Please check on client and assign a standby staff to her!"
+                    type="warning"
+                    showIcon
+                  />
                   <ClientQueueChart clientQueueData={clientQueueData} />
-                  <div style={{ textAlign: "center", width: "100%" }}>
-                    <Statistic value={"Clients Toilet Usuage (2019-11-08)"} />
-                  </div>
+                  <CenterBox>
+                    <span style={{ fontWeight: "bold" }}>
+                      {"Clients Toilet Usuage (2019-11-08)"}{" "}
+                    </span>
+                  </CenterBox>
                 </TabPane>
                 <TabPane
                   tab={
@@ -161,12 +160,19 @@ class ClientsPage extends Component {
                   }
                   key="2"
                 >
+                  <Alert
+                    style={{ marginLeft: "60px", marginBottom: "5px" }}
+                    message="MONG: Average time spent is more than 10 mins"
+                    description="Please check on client and assign a standby staff to her!"
+                    type="warning"
+                    showIcon
+                  />
                   <ClientToiletAverage clientQueueData={clientQueueData} />
-                  <div style={{ textAlign: "center", width: "100%" }}>
-                    <Statistic
-                      value={"Clients Averge Time Spent in Toilet (2019-11-08)"}
-                    />
-                  </div>
+                  <CenterBox>
+                    <span style={{ fontWeight: "bold" }}>
+                      {"Clients Averge Time Spent in Toilet (2019-11-08)"}
+                    </span>
+                  </CenterBox>
                 </TabPane>
               </Tabs>
             </Col>

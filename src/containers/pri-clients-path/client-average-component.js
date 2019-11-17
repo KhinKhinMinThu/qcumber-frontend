@@ -53,7 +53,7 @@ const ClientToiletAverage = ({ clientQueueData }) => {
   return (
     <div>
       {data.length > 0 ? (
-        <Chart height={510} data={data} scale={scale} forceFit>
+        <Chart height={450} data={data} scale={scale} forceFit>
           <Axis name="name" />
           <Axis name="average" title />
           <Geom
